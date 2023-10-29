@@ -5,7 +5,7 @@ import { useLayoutEffect } from "react";
 
 const MealsOverviewScreen = ({ route, navigation }) => {
   const categoryId = route.params.categoryId;
-
+  const categoryColor = route.params.categoryColor;
   const displayedMeals = MEALS.filter(
     (meal) => meal.categoryIds.indexOf(categoryId) >= 0
   );
@@ -25,6 +25,8 @@ const MealsOverviewScreen = ({ route, navigation }) => {
     const handleMealPress = () => {
       navigation.navigate("MealDetails" , {
         title : itemData.item.title,
+        mealId : itemData.item.id,
+        categoryColor : categoryColor,
       });
     };
 
@@ -35,6 +37,7 @@ const MealsOverviewScreen = ({ route, navigation }) => {
       affordability: mealItem.affordability,
       complexity: mealItem.complexity,
       duration: mealItem.duration,
+      color : categoryColor,
     };
     return <Meal {...mealItemProps} onPress = {handleMealPress} />;
   };

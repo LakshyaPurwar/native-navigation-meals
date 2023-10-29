@@ -11,6 +11,7 @@ const CategoriesScreen = ({ navigation }) => {
     const pressHandler = () => {
       navigation.navigate("MealsOverview" , {
         categoryId : itemData.item.id,
+        categoryColor : itemData.item.color,
       });
     };
     return (

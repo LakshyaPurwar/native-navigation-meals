@@ -1,12 +1,20 @@
 import { View, Text, Pressable, Image, StyleSheet } from "react-native";
 
-const Meal = ({ title, imageUrl, duration, complexity, affordability , onPress }) => {
+const Meal = ({
+  title,
+  imageUrl,
+  duration,
+  complexity,
+  affordability,
+  onPress,
+  color,
+}) => {
   return (
-    <View style={styles.outerContainer}>
+    <View style={[styles.outerContainer]}>
       <Pressable
         android_ripple={{ color: "lightgray" }}
-        style={styles.mealContainer}
-        onPress = {onPress}
+        style={[styles.mealContainer, { borderColor: color }]}
+        onPress={onPress}
       >
         <View style={styles.innerContainer}>
           <View style={styles.imageContainer}>
@@ -16,12 +24,12 @@ const Meal = ({ title, imageUrl, duration, complexity, affordability , onPress }
           <Text style={styles.title}>{title}</Text>
         </View>
         <View>
-          <Text style={styles.textStyle}>Duration : {duration}</Text>
+          <Text style={styles.textStyle}>Duration : <Text style={styles.highLightText}>{duration}~MINS</Text></Text>
           <Text style={styles.textStyle}>
-            Complexity : {complexity.toUpperCase()}
+            Complexity : <Text style={styles.highLightText}>{complexity.toUpperCase()}</Text> 
           </Text>
           <Text style={styles.textStyle}>
-            Affordabilty : {affordability.toUpperCase()}
+            Affordabilty : <Text style={styles.highLightText}>{affordability.toUpperCase()}</Text>
           </Text>
         </View>
       </Pressable>
@@ -35,7 +43,6 @@ const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
     width: "100%",
-    // backgroundColor: "red",
     marginVertical: 12,
     borderRadius: 8,
     overflow: "hidden",
@@ -48,18 +55,19 @@ const styles = StyleSheet.create({
     padding: 12,
     width: "100%",
     backgroundColor: "#15191f",
+    borderWidth: 1,
+    borderRadius: 8,
   },
   innerContainer: {
     alignItems: "center",
     justifyContent: "center",
-
   },
   title: {
     fontSize: 16,
     fontFamily: "monospace",
     fontWeight: "bold",
     color: "white",
-    marginVertical : 4,
+    marginVertical: 4,
   },
   imageContainer: {
     height: 160,
@@ -67,7 +75,7 @@ const styles = StyleSheet.create({
     borderRadius: 80,
     overflow: "hidden",
     borderWidth: 2,
-    borderColor : 'gray',
+    borderColor: "gray",
     padding: 12,
     alignItems: "center",
     justifyContent: "center",
@@ -92,4 +100,9 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     borderRadius: 4,
   },
+  highLightText : {
+    fontFamily : 'monospace',
+    fontWeight : 'bold',
+    color : 'lightgray',
+  }
 });
