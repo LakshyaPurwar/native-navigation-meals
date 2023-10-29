@@ -1,14 +1,25 @@
-import { useLayoutEffect , useState } from "react";
+import { useLayoutEffect, useState, useContext } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { MEALS } from "../data/dummy-data";
 import IconButton from "../components/IconButton";
-const MealDetails = ({ navigation, route }) => {
-  const [iconColor, setIconColor] = useState("white");
-  const headerButtonPressHandler = () => {
+import { FavouritesContext } from "../store/context/favouritesContext";
 
-    setIconColor((prev)=>{
-      return prev === 'white' ? 'red' : 'white';
-    });
+const MealDetails = ({ navigation, route }) => {
+  const mealId = route.params.mealId;
+  const categoryColor = route.params.categoryColor;
+  const meal = MEALS.find((meal) => meal.id === mealId);
+  const FavContext = useContext(FavouritesContext);
+  const ids = FavContext.ids;
+
+  const isMealFavourite = ids.includes(mealId);
+  console.log(ids);
+
+  const favouritesStatusHandler = () => {
+    if (isMealFavourite) {
+      FavContext.removeFavourite(mealId);
+    } else {
+      FavContext.addFavourite(mealId);
+    }
   };
 
   useLayoutEffect(() => {
@@ -18,16 +29,14 @@ const MealDetails = ({ navigation, route }) => {
         return (
           <IconButton
             icon="heart"
-            color={iconColor}
-            onPress={headerButtonPressHandler}
+            color={isMealFavourite ? "red" : "white"}
+            onPress={favouritesStatusHandler}
           />
         );
       },
     });
-  }, [navigation, headerButtonPressHandler]);
-  const mealId = route.params.mealId;
-  const categoryColor = route.params.categoryColor;
-  const meal = MEALS.find((meal) => meal.id === mealId);
+  }, [navigation, favouritesStatusHandler]);
+
   return (
     <ScrollView contentContainerStyle={styles.screen}>
       <View style={styles.innerContainer}>

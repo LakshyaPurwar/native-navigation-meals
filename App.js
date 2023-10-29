@@ -13,6 +13,7 @@ import MealsOverviewScreen from "./screens/MealsOverviewScreen";
 import { CATEGORIES } from "./data/dummy-data";
 import MealDetails from "./screens/MealDetails";
 import FavouritesScreen from "./screens/FavouritesScreen";
+import FavouritesContextProvider from "./store/context/favouritesContext";
 
 export default function App() {
   const Drawer = createDrawerNavigator();
@@ -65,42 +66,44 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="MealsCategories"
-          screenOptions={{
-            headerStyle: { backgroundColor: "#1E2227" },
-            headerTintColor: "white",
-            headerTitleStyle: {
-              fontFamily: "monospace",
-              fontWeight: "bold",
-              fontSize: 14,
-            },
-            contentStyle: {
-              backgroundColor: "#1E2227",
-            },
-          }}
-        >
-          <Stack.Screen
-            name="MealsCategories"
-            component={DrawerNavigator}
-            options={{ title: "All Categories", headerShown: false }}
-          />
-          <Stack.Screen
-            name="MealsOverview"
-            component={MealsOverviewScreen}
-            // options={({ navigation, route }) => {
-            //   const categoryId = route.params.categoryId;
-            //   const categoryTitle = CATEGORIES.find((category) => {
-            //     return category.id == categoryId;
-            //   }).title;
-            //   return { title: categoryTitle };
-            // }}
-          />
+      <FavouritesContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="MealsCategories"
+            screenOptions={{
+              headerStyle: { backgroundColor: "#1E2227" },
+              headerTintColor: "white",
+              headerTitleStyle: {
+                fontFamily: "monospace",
+                fontWeight: "bold",
+                fontSize: 14,
+              },
+              contentStyle: {
+                backgroundColor: "#1E2227",
+              },
+            }}
+          >
+            <Stack.Screen
+              name="MealsCategories"
+              component={DrawerNavigator}
+              options={{ title: "All Categories", headerShown: false }}
+            />
+            <Stack.Screen
+              name="MealsOverview"
+              component={MealsOverviewScreen}
+              // options={({ navigation, route }) => {
+              //   const categoryId = route.params.categoryId;
+              //   const categoryTitle = CATEGORIES.find((category) => {
+              //     return category.id == categoryId;
+              //   }).title;
+              //   return { title: categoryTitle };
+              // }}
+            />
 
-          <Stack.Screen name="MealDetails" component={MealDetails} />
-        </Stack.Navigator>
-      </NavigationContainer>
+            <Stack.Screen name="MealDetails" component={MealDetails} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </FavouritesContextProvider>
     </>
   );
 }

@@ -1,20 +1,29 @@
+import { useNavigation } from "@react-navigation/native";
 import { View, Text, Pressable, Image, StyleSheet } from "react-native";
 
 const Meal = ({
+  id,
   title,
   imageUrl,
   duration,
   complexity,
   affordability,
-  onPress,
   color,
 }) => {
+  const navigation = useNavigation();
+  const handleMealPress = () => {
+    navigation.navigate("MealDetails", {
+      title: title,
+      mealId: id,
+      categoryColor: color,
+    });
+  };
   return (
     <View style={[styles.outerContainer]}>
       <Pressable
         android_ripple={{ color: "lightgray" }}
         style={[styles.mealContainer, { borderColor: color }]}
-        onPress={onPress}
+        onPress={handleMealPress}
       >
         <View style={styles.innerContainer}>
           <View style={styles.imageContainer}>
@@ -24,12 +33,18 @@ const Meal = ({
           <Text style={styles.title}>{title}</Text>
         </View>
         <View>
-          <Text style={styles.textStyle}>Duration : <Text style={styles.highLightText}>{duration}~MINS</Text></Text>
           <Text style={styles.textStyle}>
-            Complexity : <Text style={styles.highLightText}>{complexity.toUpperCase()}</Text> 
+            Duration : <Text style={styles.highLightText}>{duration}~MINS</Text>
           </Text>
           <Text style={styles.textStyle}>
-            Affordabilty : <Text style={styles.highLightText}>{affordability.toUpperCase()}</Text>
+            Complexity :{" "}
+            <Text style={styles.highLightText}>{complexity.toUpperCase()}</Text>
+          </Text>
+          <Text style={styles.textStyle}>
+            Affordabilty :{" "}
+            <Text style={styles.highLightText}>
+              {affordability.toUpperCase()}
+            </Text>
           </Text>
         </View>
       </Pressable>
@@ -100,9 +115,9 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     borderRadius: 4,
   },
-  highLightText : {
-    fontFamily : 'monospace',
-    fontWeight : 'bold',
-    color : 'lightgray',
-  }
+  highLightText: {
+    fontFamily: "monospace",
+    fontWeight: "bold",
+    color: "lightgray",
+  },
 });

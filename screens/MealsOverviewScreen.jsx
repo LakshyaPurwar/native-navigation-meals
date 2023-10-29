@@ -1,7 +1,7 @@
 import { View, FlatList, StyleSheet } from "react-native";
 import { MEALS, CATEGORIES } from "../data/dummy-data";
-import Meal from "../components/Meal";
 import { useLayoutEffect } from "react";
+import MealsList from "../components/MealsList/MealsList";
 
 const MealsOverviewScreen = ({ route, navigation }) => {
   const categoryId = route.params.categoryId;
@@ -21,35 +21,9 @@ const MealsOverviewScreen = ({ route, navigation }) => {
     });
   }, []);
 
-  const renderMealItem = (itemData) => {
-    const handleMealPress = () => {
-      navigation.navigate("MealDetails" , {
-        title : itemData.item.title,
-        mealId : itemData.item.id,
-        categoryColor : categoryColor,
-      });
-    };
-
-    const mealItem = itemData.item;
-    const mealItemProps = {
-      title: mealItem.title,
-      imageUrl: mealItem.imageUrl,
-      affordability: mealItem.affordability,
-      complexity: mealItem.complexity,
-      duration: mealItem.duration,
-      color : categoryColor,
-    };
-    return <Meal {...mealItemProps} onPress = {handleMealPress} />;
-  };
-
   return (
     <View style={styles.container}>
-      <FlatList
-        data={displayedMeals}
-        keyExtractor={(item) => item.id}
-        renderItem={renderMealItem}
-        contentContainerStyle={styles.listStyle}
-      />
+      <MealsList displayedMeals={displayedMeals} categoryColor={categoryColor}></MealsList>
     </View>
   );
 };
@@ -64,8 +38,5 @@ const styles = StyleSheet.create({
     padding: 16,
     // backgroundColor : "pink",
   },
-  listStyle: {
-    // backgroundColor : "lightpink",
-    width: 360,
-  },
+  
 });
