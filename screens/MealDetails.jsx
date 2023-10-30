@@ -2,23 +2,32 @@ import { useLayoutEffect, useState, useContext } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { MEALS } from "../data/dummy-data";
 import IconButton from "../components/IconButton";
-import { FavouritesContext } from "../store/context/favouritesContext";
+// import { FavouritesContext } from "../store/context/favouritesContext";
+import { useSelector, useDispatch } from "react-redux";
+import { addFavourite, removeFavourite } from "../store/redux/FavouriteSlice";
 
 const MealDetails = ({ navigation, route }) => {
   const mealId = route.params.mealId;
   const categoryColor = route.params.categoryColor;
   const meal = MEALS.find((meal) => meal.id === mealId);
-  const FavContext = useContext(FavouritesContext);
-  const ids = FavContext.ids;
+  const ids = useSelector((state) => state.favourites.ids);
+  const dispatch = useDispatch();
+  // const FavContext = useContext(FavouritesContext);
+  // const ids = FavContext.ids;
 
   const isMealFavourite = ids.includes(mealId);
   console.log(ids);
 
   const favouritesStatusHandler = () => {
+    // if (isMealFavourite) {
+    //   FavContext.removeFavourite(mealId);
+    // } else {
+    //   FavContext.addFavourite(mealId);
+    // }
     if (isMealFavourite) {
-      FavContext.removeFavourite(mealId);
+      dispatch(removeFavourite({ id: mealId }));
     } else {
-      FavContext.addFavourite(mealId);
+      dispatch(addFavourite({ id: mealId }));
     }
   };
 
@@ -164,24 +173,3 @@ const styles = StyleSheet.create({
     // color : '#ff67a4',
   },
 });
-
-// const styles = StyleSheet.create({
-//   outerContainer: {
-//     flex: 1,
-//     width: "100%",
-//     // backgroundColor: "red",
-//     marginVertical: 12,
-//     borderRadius: 8,
-//     overflow: "hidden",
-//     elevation: 2,
-//   },
-//   mealContainer: {
-//     flex: 1,
-//     alignItems: "center",
-//     justifyContent: "center",
-//     padding: 12,
-//     width: "100%",
-//     backgroundColor: "#15191f",
-//   },
-
-// });
